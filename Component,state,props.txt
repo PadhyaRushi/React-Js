@@ -1,0 +1,535 @@
+Module – 2 Advance JavaScript
+
+
+Q-1 What is JavaScript Output method? 
+
+=>JavaScript can "display" data in different ways: Writing into an HTML element, using innerHTML . Writing into the HTML output using document.write() . Writing into an alert box, using window.alert() . Writing into the browser console, using console.log().
+
+Q-2 How to used JavaScript Output method? 
+=>
+JavaScript Output
+Writing into an HTML element, using innerHTML .
+Writing into the HTML output using document.write() .
+Writing into an alert box, using window.alert() .
+Writing into the browser console, using console.log() .
+
+Q-3 How to used JavaScript Events to do all examples? 
+=>
+Onclick Events and Syntax
+We can define it as a mouse event that stimulates as per the code logic you determine in your code. Here is the code snippet we can use.
+
+Code:
+
+<!doctype html>
+
+<html>
+
+  <head>
+
+    <script>
+
+      function Greet() {
+
+        alert('Hello World!');
+
+      }
+
+    </script>
+
+  </head>
+
+  <body>
+
+    <button type="button" onclick="Greet()">Please click here! </button>
+
+  </body>
+
+</html>
+
+Output
+JavaScript_events_1.
+
+=>Onkeyup Event and Syntax
+You can use this Javascript event in a scenario where you press a keyboard event and it performs as per your code logic. We can use the below code snippet.
+
+Code:
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+Enter your First name: <input type="text" id="firstname" onkeyup="myKeyUpFunction()">
+
+<p>My First name is: <span id="Test"></span></p>
+
+<script>
+
+function myKeyUpFunction() {
+
+  var input = document.getElementById("firstname").value;
+
+  document.getElementById("Test").innerHTML = input;
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Output
+JavaScript_events_2
+
+
+=>Onmouseover Event and Syntax
+We can use this event for hovering the mouse pointer when we put the cursor and it performs as per the logic of the element which is connected to and its child's elements. We can use the below code snippet.
+
+Code:
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<h1 id="demo">Test Mouse over me</h1>
+
+<script>
+
+document.getElementById("demo").onmouseover = function() {mouseOver()};
+
+function mouseOver() {
+
+  document.getElementById("demo").style.color = "Purple";
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Output
+JavaScript_events_3
+
+=>Onmouseout Event
+When you leave the mouse cursor it moves to the element that controls a mouseout event;, a function associated with it is executed. The below code snippet can help you to understand the logic.
+
+ Code
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<h1 id="demo">Test Mouse over me</h1>
+
+<script>
+
+document.getElementById("demo").onmouseout = function() {mouseOut()};
+
+function mouseOut() {
+
+  document.getElementById("demo").style.color = "Red";
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Output
+JavaScript_events_4.
+
+=>Onchange Event and Syntax
+This event identifies the variance in the value of any element listing to this event. The best example of this is when text and dropdown list change events. The below code snippet can help you understand the logic as to how it converts the input name with the upper case when text changes.
+
+Code:
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+Please Enter name: <input type="text" id="Firstname">
+
+<script>
+
+document.getElementById("Firstname").onchange = function() {myFunction()};
+
+function myFunction() {
+
+  var x = document.getElementById("Firstname");
+
+  x.value = x.value.toUpperCase();
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Output
+JavaScript_events_5.
+
+After changing the event:
+
+JavaScript_events_6.
+
+
+=>Onload Event and Syntax
+The JavaScript onload event can be utilized when we have a specific requirement to execute a specific function once the page is represented fully. The below code snippet can help you understand the logic.
+
+Code:
+
+<!DOCTYPE html>
+
+<html>
+
+<body onload="checkyourCookies()">
+
+<p id="OnloadTest"></p>
+
+<script>
+
+function checkyourCookies() {
+
+  var text = "";
+
+  if (navigator.cookieEnabled == true) {
+
+    text = "your web page Cookies are active.";
+
+  } else {
+
+    text = "your web page Cookies are not active.";
+
+  }
+
+  document.getElementById("OnloadTest").innerHTML = text;
+
+}
+
+</script>
+
+</body>
+
+</html> 
+
+Output
+JavaScript_events_7.
+
+==>Onfocus Event and Syntax
+This Javascript function performs when the given instruction receives the focus as per the change or click event. The below code snippet can help you understand the logic. 
+
+Code:
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<p>This is the best scenario to uses the addEventListener() function to attach a "focus" event to an input element box.</p>
+
+Enter your First name: <input type="text" id="Firstname">
+
+<script>
+
+document.getElementById("Firstname").addEventListener("focus", myFunction);
+
+function myFunction() {
+
+  document.getElementById("Firstname").style.backgroundColor = "DarkBlue";
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Output
+JavaScript_events_8
+
+Input text focused 
+
+JavaScript_events_9.
+
+==>Onblur Event and Syntax 
+This Javascript Onblur event triggers when a certain object loses focus. We can execute the below code to understand how to implement it.
+
+Code
+
+<!DOCTYPE html>
+
+<html>
+
+<body>
+
+<p>This code snippet uses the addEventListener() method and performs a "blur" event to an input element.</p>
+
+<p>please write something and see the result (blur).</p>
+
+<input type="text" id="fname">
+
+<script>
+
+document.getElementById("fname").addEventListener("blur", myFunction);
+
+function myFunction() {
+
+  alert("your Input element lost focus.");
+
+}
+
+</script>
+
+</body>
+
+</html>
+
+Q-4 What is React Js? 
+=>
+ReactJS is a declarative, efficient, and flexible JavaScript library for building reusable UI components. It is an open-source, component-based front end library which is responsible only for the view layer of the application. It was initially developed and maintained by Facebook and later used in its products like WhatsApp & Instagram.
+
+Q-5 What is NPM in React Js? 
+=>NPM is short for node package manager, an online directory that contains the various already registered open-source packages. NPM modules consume the various functions as a third-party package when installed into an app using the NPM command npm install.
+
+Q-6 What is Role of Node Js in react Js? 
+=>NodeJS is a framework of JavaScript which is mainly used for working with the backend of our application or building the backend using JavaScript, whereas ReactJS is a JavaScript front-end library. It is mainly used for building the user interface or the frontend of our application.
+
+Q-7 What is CLI command In React Js?
+=>Create-react-app is a command that is used to create a React.js project with the default configuration. Create-react-app will aid in running React applications. Command will be executed on npm or yarn.
+
+Before getting started, make sure you install node.js and npm in your machine and check their versions:
+
+node -v
+JavaScript
+npm –version
+JavaScript
+If npm and node.js is installed on computer, install create-react-app globally with the command below:
+
+npm install –g create-react-app
+JavaScript
+Creation of project − to create a project once above commands are executed, run the below command:
+
+npx create-react-app hello-world-example
+JavaScript
+npx comes with npm version 5.2+ . The npm version can be checked on terminal using:
+
+npm –version
+JavaScript
+If the npm version is 5.2+, then the react.js project can be directly created with the command:
+
+npx create-react-app hello-world-example
+JavaScript
+If npm version is 6+, then execute this command below:
+
+npm init react-app hello-world
+JavaScript
+With yarn, we have command:
+
+yarn create react-app hello-world-example
+JavaScript
+Once above commands are inserted, change the directory to hello-world-example.
+
+With create-react-app, webpack or babel is required for using advanced JavaScript features, which are preconfigured. We can only concentrate on writing code.
+
+cd hello-world-example
+JavaScript
+To execute the application, run the below command on terminal:
+
+npm start
+JavaScript
+npm start runs a live development server, and the code changes will automatically refresh the browser and reflect the changes.
+
+A browser window will be opened, if not opened automatically open a browser window manually and type the URL below:
+
+http://localhost:3000/
+Markup
+3000 is the default port used in the React application. The port number can be changed anytime if there is any issue with the port number, or  if it is used by other applications already.
+
+Q-8 What is Components in React Js? 
+=>
+Components are independent and reusable bits of code. They serve the same purpose as JavaScript functions, but work in isolation and return HTML. Components come in two types, Class components and Function components, in this tutorial we will concentrate on Function components.
+
+Q-9 What is Header and Content Components in React Js?
+=>React Bootstrap 5 Headers component
+Headers are compositions that extend standard navbar functionalities. They contain additional components like a jumbotron, sub-navbar, or image covers which serve as a containers for extra navigation elements - usually links, forms, or call-to-action buttons.
+
+Q-10 How to install React Js on Windows, linux Operating System? How
+to install NPM and How to check version of NPM.
+=>
+Installation Reactjs on Windows:
+Step 1: Install Node.js installer for windows. Click on this link. Here install the LTS version (the one present on the left). Once downloaded open NodeJS without disturbing other settings, click on the Next button until it’s completely installed.
+
+Install the 14.18.1 LTS 
+Install the 14.18.1 LTS 
+
+Step 2: Open command prompt  to check whether it is completely installed or not type the command –> 
+
+node -v
+Node Version is v14.15.3
+Node Version is v14.15.3
+
+If the installation went well it will give you the version you have installed  
+
+
+Step 3: Now in the terminal run the below command: 
+
+npm install -g create-react-app  
+Installation will take few seconds 
+Installation will take few seconds 
+
+It will globally install react app for you. To check everything  went well run the command  
+
+create-react-app --version
+version  4.0.3
+version  4.0.3
+
+If everything went well it will give you the installed version of react app
+
+Step 4:Now Create a new folder where you want to make your react app using the below command: 
+
+mkdir newfolder
+Note: The newfolder in the above command is the name of the folder and can be anything.
+
+
+
+Move inside the same folder using the below command:
+
+cd newfolder (your folder name)
+
+
+Step 5: Now inside this folder run the command –>
+
+create-react-app reactfirst YOUR_APP_NAME
+creating a react app
+
+It will take some time to install the required dependencies
+
+NOTE: Due to npm naming restrictions, names can no longer contain capital letters, thus type your app’s name in lowercase.
+
+
+Step 6: Now open the IDE of your choice for eg.  Visual studio code and open the folder where you have installed the react app newfolder (in the above example)  inside the folder you will see your app’s name reactapp (In our example). Use the terminal and move inside your app name folder.Use command  cd reactapp (your app name)
+
+
+
+Step 7: To start your app run the below command :
+
+npm start  
+Starting React server
+
+Once you run the above command a new tab will open in your browser showing React logo as shown below :
+
+Congratulation you have successfully installed the react-app and are ready to build awesome websites and app 
+
+Q-11 How to check version of React Js?
+=>
+You can use the below step to identify the "react" and "react-dom".
+
+1. Open DeveloperTool in your browser.
+2. Go to Source Tab.
+3. Check your appName .js file.
+4. Search for "react" or "react-dom" You will find something like below. That will be the version your react-app is using.
+
+Q-12 How to change in components of React Js?
+=>what would be the best way to do this. I have tried putting the components inside state as list and replacing Display component with Form Component, when Edit is clicked so instead of returning this from render():
+
+return(
+ <Display />
+ );
+Now i am returning:
+
+return(
+ {this.state.components[0]}
+  );
+and when button is clicked doing this
+
+this.setState({components:[<EditForm />]})
+
+Q-13 How to Create a List View in React Js? 
+=>
+import mobiscroll from '@mobiscroll/react';
+import '@mobiscroll/react/dist/css/mobiscroll.min.css';
+
+mobiscroll.settings = {
+    theme: 'ios',
+    themeVariant: 'light'
+};
+
+class ListItem extends React.Component {
+    render() {
+        return <li>{this.props.item.title}</li>;
+    }
+}
+
+class ListItem2 extends React.Component {
+    render() {
+        return <li>{this.props.item.title}</li>;
+    }
+}
+
+class App extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            movies: [
+                { id: 1, title: 'The Shawshank Redemption (1994)' },
+                { id: 2, title: 'The Godfather (1972)' },
+                { id: 3, title: 'The Godfather: Part II (1974)' },
+                { id: 4, title: 'The Dark Knight (2008)' },
+                { id: 5, title: '12 Angry Men (1957)' },
+                { id: 6, title: 'Schindler\'s List (1993)' },
+                { id: 7, title: 'The Lord of the Rings: The Return of the King (2003)' },
+                { id: 8, title: 'Pulp Fiction (1994)' }
+            ],
+            moreMovies: [
+                { id: 1, title: 'The Good, the Bad and the Ugly (1966)' },
+                { id: 2, title: 'Fight Club (1999)' },
+                { id: 3, title: 'The Lord of the Rings: The Fellowship of the Ring (2001)' },
+                { id: 4, title: 'Forrest Gump (1994)' },
+                { id: 5, title: 'Star Wars: Episode V - The Empire Strikes Back (1980)' },
+                { id: 6, title: 'Inception (2010)' },
+                { id: 7, title: 'The Lord of the Rings: The Two Towers (2002)' },
+                { id: 8, title: 'One Flew Over the Cuckoo\'s Nest (1975)' }
+            ]
+        };
+    }
+    render() {
+        return (
+            <mobiscroll.Form>
+                <mobiscroll.FormGroup>
+                    <mobiscroll.FormGroupTitle>Simple</mobiscroll.FormGroupTitle>
+                    <mobiscroll.Listview
+                        itemType={ListItem} 
+                        data={this.state.movies}
+                    />
+                </mobiscroll.FormGroup>
+                <mobiscroll.FormGroup>
+                    <mobiscroll.FormGroupTitle>Striped</mobiscroll.FormGroupTitle>
+                    <mobiscroll.Listview
+                        itemType={ListItem2} 
+                        data={this.state.moreMovies}
+                        striped={true}
+                    />
+                </mobiscroll.FormGroup>
+            </mobiscroll.Form>
+        );
+    }    
+}
+
+Q-14 
