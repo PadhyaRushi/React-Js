@@ -1,0 +1,471 @@
+******************Lists And Hooks************************
+
+Q :- Explain Life cycle in Class Component and functional component with Hooks.
+
+==>
+
+
+A React component undergoes three different phases in its lifecycle, including mounting, updating, and unmounting. Each phase has specific methods responsible for a particular stage in a component's lifecycle. These methods are technically particular to class-based components and not intended for functional components.
+
+However, since the concept of Hooks was released in React, you can now use abstracted versions of these lifecycle methods when you’re working with functional component state. Simply put, React Hooks are functions that allow you to “hook into” a React state and the lifecycle features within function components.
+
+In this post, you'll learn more about the React component lifecycle and the different methods within each phase (for class-based components), focusing particularly on methods and hooks.
+
+Phases of a React component's lifecycle
+A React component undergoes three phases in its lifecycle: mounting, updating, and unmounting.
+
+The mounting phase is when a new component is created and inserted into the DOM or, in other words, when the life of a component begins. This can only happen once, and is often called “initial render.”
+The updating phase is when the component updates or re-renders. This reaction is triggered when the props are updated or when the state is updated. This phase can occur multiple times, which is kind of the point of React.
+The last phase within a component's lifecycle is the unmounting phase, when the component is removed from the DOM.
+In a class-based component, you can call different methods for each phase of the lifecycle (more on this below). These lifecycle methods are of course not applicable to functional components because they can only be written/contained within a class. However, React hooks give functional components the ability to use states.
+
+Hooks have gaining popularity because they make working with React cleaner and often less verbose.
+
+React lifecycle methods
+Let’s learn more about the methods that make up each of our three phases.
+
+React lifecycle methods diagram by Menard Maranan
+
+=> The mounting phase
+In the mounting phase, a component is prepared for and actually inserted into the DOM. To get through this phase, four lifecycle methods are called: constructor, static getDerivedStateFromProps, render, and componentDidMount.
+
+=> The constructor method
+The constructor method is the very first method called during the mounting phase.
+
+It's important to remember that you shouldn't add any side effects within this method (like sending an HTTP request) as it's intended to be pure.
+
+This method is mostly used for initializing the state of the component and binding event-handler methods within the component. The constructor method is not necessarily required. If you don't intend to make your component stateful (or if that state doesn’t need to be initialized) or bind any method, then it’s not necessary to implement.
+
+The constructor method is called when the component is initiated, but before it’s rendered. It’s also called with props as an argument. It's important you call the super(props) function with the props argument passed onto it within the constructor before any other steps are taken.
+
+This will then initiate the constructor of React.Component (the parent of this class-based component) and it inherits the constructor method and other methods of a typical React component.
+
+For example, below you can see a class-based component implementation of a counter with a constructor in it, where the state is initialized and an event-handler method is bound (ignore the render method for now):
+
+
+import React from 'react';
+
+
+class Counter extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			count: 0
+		};
+
+		this.setCount = this.setCount.bind(this);
+	}
+
+	setCount() {
+		this.setState({count: this.state.count + 1});
+	}
+
+	render() {
+		return (
+			<div>
+				<h1>Counter</h1>
+				<button onClick={this.setCount}>Click to add</button>
+				<p>Count: {this.state.count}</p>
+			</div>
+		)
+	}
+}
+
+In the Counter component, you can see the component's state is initialized within the constructor method to keep track of the count state. The setCount method, which is an event-handler attached to your button in this case, is bound within the constructor.
+
+The static getDerivedStateFromProps method
+Props and state are completely different concepts, and part of building your app intelligently is deciding which data goes where.
+
+In many cases though, your component’s state will be derivative of its props. This is where the static getDerivedStateFromProps method comes in. This method allows you to modify the state value with any props value. It's most useful for changes in props over time, and we’ll learn later that it’s also useful in the update phase.
+
+The method static getDerivedStateFromProps accepts two arguments: props and state, and returns an object, or null if no change is needed. These values are passed directly to the method, so there’s no need for it to have access to the instance of the class (or any other part of the class) and thus is considered a static method.
+
+In the mounting phase, the getDerivedStateFromProps method is called after the constructor method and right before the component is rendered. This is the most rarely used method in this phase, but it’s still important to know so you can use it if needed.
+
+For reference, here's an example of how getDerivedStateFromProps is used:
+
+
+class UserPreview extends React.Component {
+	
+	constructor(props) {
+		super(props);
+		this.state = {
+			...
+			fullname: ""
+		};
+	}
+
+
+	static getDerivedStateFromProps(props, state) {
+		return {
+			...
+			fullname: `${props.firstname} ${props.lastname}`
+		}
+	}
+
+	render() {
+		// ...
+	}
+}
+
+Another way of looking at it is just providing a default for your component state based on props.
+
+The render method
+The render method is the only required method for a class-based React component. It’s called after the getDerivedStateFromProps method and actually renders or inserts the HTML to the DOM.
+
+Typically, the render method returns the JSX which will eventually be rendered, but it can also return other values.
+
+It's important to remember that the render method is meant to be pure. This means you can’t modify the state, have any direct interaction with the browser, or any other kind of side effect like sending an HTTP request. Just think of it as writing HTML, but of course as JSX.
+
+Below is an example of using the render method:
+
+
+class SubmitButton extends React.Component {
+	render() {
+		return (
+			<button
+				type="submit"
+				style={this.props.styles}
+			>
+				{this.props.child}
+			</button>
+		);
+	}
+}
+
+The componentDidMount method
+componentDidMount is the last lifecycle method called in the mounting phase. It’s called right after the component is rendered or mounted to the DOM.
+
+With this method, you're allowed to add side effects like sending network requests or updating the component's state. Additionally, the componentDidMount method allows you to make subscriptions like subscribing to the Redux store. You can also call the this.setState method right away; however this will cause a re-render as it kicks in the update phase, since the state has changed.
+
+You need to be careful with componentDidMount because it may cause unnecessary re-renders.
+
+Here's an example using the componentDidMount method:
+
+
+class NASACounter extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      count: 10
+    };
+  }
+
+  componentDidMount() {
+    const myTimer = setInterval(() => {
+      this.state.count > 0
+        ? this.setState({ count: this.state.count - 1 })
+        : clearInterval(myTimer);
+    }, 1000);
+  }
+
+  render() {
+    return (
+      <div style={this.props}>
+        <h1>
+          NASA Countdown: <br /> {this.state.count || "🪐"} <br />
+          {"⭐".repeat(this.state.count) || "🚀"}
+        </h1>
+        {this.state.count === 0 && <h2>LIFT OFF!!!</h2>}
+      </div>
+    );
+  }
+}
+
+A common use case is waiting until a component renders to start an animation, or fetching data from an external source.
+
+The updating phase
+The Updating phase is triggered when component props or state change, and consists of the following methods: static getDerivedFromProps, shouldComponentUpdate, render, getSnapshotBeforeUpdate, and componentDidUpdate.
+
+The methods getDerivedFromProps and render are also part of the mounting phase. Since they’ve been covered previously, this section focuses on the other three methods.
+
+The static getDerivedStateFromProps
+In the update phase, the first lifecycle method called is getDerivedStateFromProps. This method is useful if you have updated props and you want to reflect that in the component's state.
+
+For instance, a component’s state may depend on the value of its props. With getDerivedStateFromProps, before the component was even re-rendered, its state can reflect those changes and can be shown (if applicable) to the newly updated component.
+
+Remember, this method is rarely used and isn’t ideal for most situations.
+
+The shouldComponentUpdate method
+shouldComponentUpdate is another rarely used lifecycle method. It’s specifically intended for performance optimization, and basically lets you tell React when you don't need to re-render when a new state or props comes in. While it can help avoid re-renders, you shouldn’t rely on it to prevent re-renders since you might skip a necessary update and encounter bugs.
+
+To prevent renders, you can opt in to logical rendering instead, or use a PureComponent which is recommended by React.
+
+This method can accept nextProps and nextState as arguments, however, they’re optional, and you can declare it without the arguments. This method then returns a Boolean value. The Boolean value defines whether a re-render happens. The default value is true, where re-render happens in all cases whenever state or props changes.
+
+Note that the shouldComponentUpdate method is ignored when forceUpdate() is invoked.
+
+Here's an example using the shouldComponentUpdate lifecycle method:
+
+
+class ShowWholeNumber extends React.Component {
+	shouldComponentUpdate(nextProps, nextState) {
+		return Math.round(nextProps.num) === Math.round(this.props.num);
+	}
+
+	render() {
+		return (
+			<div>
+				The Whole number is: {Math.round(this.props.num)}
+			</div>
+		)
+	}
+}
+
+The getSnapshotBeforeUpdate method
+The getSnapshotBeforeUpdate method gives you access to the previous props and state of the component before it's updated. This allows you to work or check on the previous values of the state or props. It’s another method that’s rarely used.
+
+A good use case for this method is handling scroll positions in a chat app. When a new message comes in as the user is viewing old messages, it shouldn’t push the old ones out of view.
+
+getSnapshotBeforeUpdate is called after the render method, and before componentDidUpdate. If the getSnapshotBeforeUpdate method returns anything, it will be passed as a parameter for the componentDidUpdate method:
+
+
+class ChatList extends React.Component {
+  constructor(props) {
+    super(props);
+    this.chatsList = React.createRef();
+  }
+
+  getSnapshotBeforeUpdate(prevProps, prevState) {
+    if (prevProps.list.length < this.props.list.length) {
+      const list = this.chatsList.current;
+      return list.scrollHeight - list.scrollTop;
+    }
+    return null;
+  }
+
+  componentDidUpdate(prevProps, prevState, snapshot) {
+     if (snapshot !== null) {
+      const list = this.chatsList.current;
+      list.scrollTop = list.scrollHeight - snapshot;
+    }
+  }
+
+  render() {
+    return (
+      <div ref={this.chatsList}>{/* ...contents... */}</div>
+    );
+  }
+}
+
+
+The componentDidUpdate Method
+The componentDidUpdate method is the last lifecycle method invoked in the update phase. It allows you to create side effects like sending network requests or calling the this.setState method. It’s important to remember that there should always be a way to avoid the setState (like some sort of logic), or it will result in an infinite loop of re-rendering.
+
+This method can accept up to three parameters: prevProps, prevState, and snapshot (if you implement the getSnapshotBeforeUpdate method).
+
+Here's an example of using componentDidUpdate method for implementing autosave functionality:
+
+
+class WritePost extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			postContent: ""
+		};
+
+		this.handleInput = this.handleInput.bind(this);
+		this.handleSubmit = this.handleSubmit.bind(this);
+	}
+
+	handleInput(e) {
+		this.setState({postContent: this.state.postContent + e.target.value})
+	}
+
+	handleSubmit() {
+		// ...
+	}
+
+	autosave() {
+		// send network request to save post...
+	}
+
+	componentDidUpdate() {
+		this.autosave()
+	}
+
+	render() {
+		return(
+			<form onSubmit={this.handleSubmit}>
+				<input type={text} value={this.state.postContent} onChange={e => handleInput(e)} />
+				<button type="submit">Post</button>
+			</form>
+		)
+	}
+}
+
+The unmounting phase
+The unmounting phase is the third and final phase of a React component. At this phase, the component is removed from the DOM. Unmounting only has one lifecycle method involved: componentWillUnmount.
+
+The componentWillUnmount Method
+componentWillUnmount is invoked right before the component is unmounted or removed from the DOM. It’s meant for any necessary clean up of the component, like unsubscribing to any subscriptions (i.e., Redux) or canceling any network requests. Once this method is done executing, the component will be destroyed.
+
+Here's an example of using the componentWillUnmount to unsubscribe from a Redux store:
+
+
+class MyComponent extends React.Component {
+	constructor(props) {
+		super(props);
+		this.state = {
+			...
+		}
+
+		// whatever bindings...
+	}
+
+	componentDidMount() {
+		const { subscribe } = this.props.store;
+		this.unsubscribe = subscribe(this.forceUpdate);
+	}
+
+	componentWillUnmount() {
+		this.unsubscribe();
+	}
+
+	render() {
+		return (
+			<div>
+				...
+			</div>
+		)
+	}
+}
+
+React Hooks and the component lifecycle
+Versions of React before 16.8 consider two kinds of components based on statefulness: the class-based stateful component, and the stateless functional components (often referred to as a “dumb component”). But with the release of React 16.8, Hooks were introduced and empowered developers to access state from functional components, instead of writing an entire class. With this change, building components became easier and less verbose.
+
+Hooks known as default hooks come with React, and you’re also able to create your own custom hook. A custom hook is just a function that starts with use, like useStore, or useWhatever.
+
+The two most common default hooks are useState and useEffect. The useState hook gives state to the functional component, and useEffect allows you to add side effects within it (like after initial render), which aren’t allowed within the function's main body. You can also act upon updates on the state with useEffect.
+
+React has released more default hooks, but useState and useEffect are the ones you should be most familiar with. Let’s take a look at how they work and compare them to the component lifecycle we covered above.
+
+useState
+The useState hook is used to store state for a functional component. This hook accepts one parameter: initialState, which will be set as the initial stateful value, and returns two values: the stateful value, and the update function to update the stateful value. The update function accepts one argument, newState, which replaces the existing stateful value.
+
+Let's say you have this class-based component:
+
+
+class MyInput extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { input: "" };
+
+    this.handleChange = this.handleChange.bind(this);
+  }
+
+  handleChange(e) {
+    this.setState({ input: e.target.value });
+  }
+
+  render() {
+    return (
+      <input
+        type="text"
+        value={this.state.input}
+        onChange={this.handleChange}
+      />
+    );
+  }
+}
+
+Converting this to a functional component with useState eliminates a lot of code and makes things cleaner and shorter. Here's what the above component looks like with the useState hook. If you’ve read a React tutorial over the past 2 years, chances are you’ve seen some syntax like this.
+
+import { useState } from 'react';
+
+
+function MyInput(props) {
+	const [input, setInput] = useState('');
+
+	return (
+		<input
+			value={input}
+			onChange={e => setInput(e.target.value)}
+		/>
+	)
+}
+
+With useState(), whatever you put in the parenthesis is the default state.
+
+The simplicity and clarity of these functional components with Hooks popularized their use among developers who prefer using functional components rather than traditional, class-based ones.
+
+But what if your class-based component’s state object has plenty of items like this:
+
+
+class MyComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    // this component has multiple items in the state object
+    this.state = {
+      count: 0,
+      counterWeight: 1,
+      themeMode: "light"
+    };
+
+    // ...
+  }
+
+  // ...
+
+  render() {
+    return (
+      <div class={this.state.themeMode}>
+      	...
+      </div>
+    );
+  }
+}
+
+You might be tempted at first to use one useState hook, and build some sort of dictionary to hold all of this state. But React allows you to have multiple useState hooks within a functional component. So instead of one single object, you can set each item of the state object into its own state:
+
+
+function MyComponent(props) {
+	const [count, setCount] = useState(0);
+	const [counterWeight, setCounterWeight] = useState(1);
+	const [themeMode, setThemeMode] = useState('light');
+
+	// the rest of the code...
+
+	return (
+		<div>
+			...
+		</div>
+	)
+}
+
+With a lot of different “types” of state this can obviously get verbose, so exercise judgment for larger components.
+
+useEffect
+As with the render() method of a class-based component, the main body of a functional component should be kept pure. With the useEffect hook, you're able to create side effects while maintaining the component's purity. Within this hook, you can send network requests, make subscriptions, and change the state value.
+
+The useEffect hook accepts a function as an argument, where you write all your side effects. This function is invoked after every browser paint and before any new renders (this will depend on the dependency array, which is explained in the next paragraph). This function can return another function called the clean-up function, which can be used to clean up the side effects (i.e. when the component is destroyed) like unsubscribing to a store. It’s kind of a mash up of several of the methods explained in the previous section.
+
+This Hook accepts a second argument called the dependency array, which is an array of dependencies like state or props values, which the useEffect uses as reference to only run when these values change. If the dependency array is empty, then the useEffect will only run once, after the first paint.
+
+The dependency array is optional, so if it's not defined, useEffect will fire first when the component is first mounted, and then on every re-render.
+
+Here's an example of a functional component using useEffect that subscribes to a Redux store:
+
+import { useEffect } from 'react';
+
+
+function MyComponent(props) {
+	// ...
+
+	useEffect(() => {
+		const { subscribe } = props.store;
+		const unsubscribe = subscribe(...);
+		return unsubscribe
+	}, []);
+
+	return 
+}
+
+This component's useEffect will only run once, since the dependency array is empty. Within the input function, the subscription to the Redux store is invoked, which returns an unsubscribe function. This unsubscribe function is returned, which serves as the clean-up function.
+
+You might have noticed that the useEffect from the above component has similarities to componentDidMount. It holds the side effects, and only runs once, when the component is mounted. The only difference is that it's invoked after the first browser paint, whereas componentDidMount doesn’t wait for that. It’s also important to note that the clean-up function can be compared to the componentWillUnmount, as this function is invoked when the component was destroyed. So again, useEffect() is a sort of hybrid in this sense.
+
+The useEffect hook works similarly to the three lifecycle methods: componentDidMount, componentDidUpdate, and componentWillUnmount. The componentDidMount and componentWillUnmount were discussed above, but what about componentDidUpdate?
+
+If you add dependencies in the dependency array, the function passed into the useEffect hook will run every time the dependencies, like a piece of stateful data, changes. This behavior of the useEffect hook is comparable to the componentDidUpdate method since it’s invoked on every state/props change. The difference is that you can specifically choose what state/props you want useEffect to depend on, rather than the componentDidUpdate which acts upon every state or props change.
